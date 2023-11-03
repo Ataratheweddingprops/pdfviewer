@@ -2,7 +2,7 @@
 
 :: Set the directory where this batch script is located
 set "script_dir=%~dp0"
-
+echo 
 :: Set the path to the pdftopng executable in the same directory as the script
 set "pdftopng_path=%script_dir%pdftopng.exe"
 
@@ -28,3 +28,19 @@ for %%i in ("%input_pdf_directory%\*.pdf") do (
 
 echo All PDFs in the "pdfs" folder converted to PNG.
 
+@echo off
+
+:: Add all changes to the staging area
+git add .
+
+:: Prompt the user for a commit message
+set /p commit_message="Enter your commit message: "
+
+:: Commit the changes with the provided commit message
+git commit -m "%commit_message%"
+
+:: Push the changes to the remote repository (replace "origin" and "master" with your remote and branch)
+git push origin master
+
+:: Pause to keep the command prompt window open for feedback
+pause
