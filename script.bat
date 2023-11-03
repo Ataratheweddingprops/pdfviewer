@@ -23,7 +23,7 @@ for %%i in ("%input_pdf_directory%\*.pdf") do (
     echo Converting "%%~nxi" to PNG...
     echo %pdf_file%
 
-    pdftopng.exe -r 300 "%input_pdf_directory%\%pdf_file%" "%output_directory%\%%~nxi_page"
+    pdftopng.exe -r 100 "%input_pdf_directory%\%pdf_file%" "%output_directory%\%%~nxi_page"
 )
 
 echo All PDFs in the "pdfs" folder converted to PNG.

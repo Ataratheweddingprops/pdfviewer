@@ -1,0 +1,49 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dhruvil ne banaya hai</title>
+</head>
+
+<body>
+    <div id="image-container"></div>
+    <script>
+        const imageContainer = document.getElementById('image-container');
+
+        // Function to load and display images from a folder
+        function loadImagesFromFolder() {
+            // Replace 'path/to/your/images' with the actual path to your image folder
+            const folderPath = 'images/';
+
+            // Fetch image files from the folder
+            fetch(`${folderPath}`)
+                .then(response => response.text())
+                .then(data => {
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(data, 'text/html');
+                    const links = Array.from(doc.links);
+
+                    // Filter only image files (you can adjust the file extensions)
+                    const imageLinks = links.filter(link => /\.(jpg|jpeg|png|gif)$/i.test(link.href));
+
+                    // Create and append <img> elements for each image
+                    imageLinks.forEach(link => {
+                        const img = document.createElement('img');
+                        img.src = link.href;
+                        img.alt = 'Image';
+                        imageContainer.appendChild(img);
+                    });
+                })
+                .catch(error => {
+                    console.error('Error fetching images:', error);
+                });
+        }
+
+        // Call the function to load and display images
+        loadImagesFromFolder();
+    </script>
+
+</body>
+
+</html>
