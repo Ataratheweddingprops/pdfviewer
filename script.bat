@@ -15,18 +15,18 @@ set "output_directory=%script_dir%images"
 
 :: Ensure the output directory exists; create it if not
 if not exist "%output_directory%" mkdir "%output_directory%"
-@REM pdftopng
+pdftopng
 
-@REM :: Loop through all PDF files in the "pdfs" folder and convert each one to PNG
-@REM for %%i in ("%input_pdf_directory%\*.pdf") do (
+:: Loop through all PDF files in the "pdfs" folder and convert each one to PNG
+for %%i in ("%input_pdf_directory%\*.pdf") do (
 
-@REM     set "pdf_file=%%~nxi"
-@REM     echo Converting "%%~nxi" to PNG...
-@REM     echo %pdf_file%
+    set "pdf_file=%%~nxi"
+    echo Converting "%%~nxi" to PNG...
+    echo %pdf_file%
 
-@REM     pdftopng.exe -r 102 "%input_pdf_directory%\%pdf_file%" "%output_directory%\%%~nxi_page"
+    pdftopng.exe -r 150 "%input_pdf_directory%\%pdf_file%" "%output_directory%\%%~nxi_page"
 
-@REM )
+)
 
 :: Loop through all PNG files in the "images" folder and convert each one to WebP
 for %%f in ("%output_directory%\*.png") do (
@@ -39,21 +39,21 @@ for %%f in ("%output_directory%\*.png") do (
     del "%%f"
 )
 
-@REM echo All PDFs in the "pdfs" folder converted to PNG.
+echo All PDFs in the "pdfs" folder converted to PNG.
 
-@REM @echo off
+@echo off
 
-@REM :: Add all changes to the staging area
-@REM git add .
+:: Add all changes to the staging area
+git add .
 
-@REM :: Prompt the user for a commit message
-@REM set /p commit_message="Enter your commit message: "
+:: Prompt the user for a commit message
+set /p commit_message="Enter your commit message: "
 
-@REM :: Commit the changes with the provided commit message
-@REM git commit -m "%commit_message%"
+:: Commit the changes with the provided commit message
+git commit -m "%commit_message%"
 
-@REM :: Push the changes to the remote repository (replace "origin" and "master" with your remote and branch)
-@REM git push origin main
+:: Push the changes to the remote repository (replace "origin" and "master" with your remote and branch)
+git push origin main
 
 :: Pause to keep the command prompt window open for feedback
 pause
