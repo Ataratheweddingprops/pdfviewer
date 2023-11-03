@@ -40,7 +40,7 @@ set /p commit_message="Enter your commit message: "
 git commit -m "%commit_message%"
 
 :: Push the changes to the remote repository (replace "origin" and "master" with your remote and branch)
-git push origin master
+git push origin main
 
 :: Pause to keep the command prompt window open for feedback
 pause
