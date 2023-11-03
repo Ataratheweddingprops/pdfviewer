@@ -5,6 +5,7 @@ set "script_dir=%~dp0"
 echo 
 :: Set the path to the pdftopng executable in the same directory as the script
 set "pdftopng_path=%script_dir%pdftopng.exe"
+set "cwebp_path=%script_dir%cwebp.exe"
 
 :: Set the input PDF directory (the "pdfs" folder)
 set "input_pdf_directory=%script_dir%pdfs"
@@ -23,7 +24,19 @@ for %%i in ("%input_pdf_directory%\*.pdf") do (
     echo Converting "%%~nxi" to PNG...
     echo %pdf_file%
 
-    pdftopng.exe -r 100 "%input_pdf_directory%\%pdf_file%" "%output_directory%\%%~nxi_page"
+    pdftopng.exe -r 50 "%input_pdf_directory%\%pdf_file%" "%output_directory%\%%~nxi_page"
+
+)
+
+:: Loop through all PNG files in the "images" folder and convert each one to WebP
+for %%f in ("%output_directory%\*.png") do (
+    set "png_file=%%~nxf"
+    set "webp_file=%output_directory%\%%~nf.webp"
+    echo Converting "%%~nxf" to WebP...
+    %cwebp_path% -q 90 -z 4 "%%f" -o "%%~dpnf.webp"
+    
+    :: Delete the original PNG file after successful conversion to WebP
+    del "%%f"
 )
 
 echo All PDFs in the "pdfs" folder converted to PNG.

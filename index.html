@@ -10,29 +10,25 @@
     <div id="image-container"></div>
     <script>
         const imageContainer = document.getElementById('image-container');
+        const repositoryOwner = 'Ataratheweddingprops'; // Replace with your GitHub username
+        const repositoryName = 'pdfviewer'; // Replace with your GitHub repository name
+        const folderPath = 'images'; // Replace with the actual path to your image folder
 
-        // Function to load and display images from a folder
+        // Function to load and display images
         function loadImagesFromFolder() {
-            // Replace 'path/to/your/images' with the actual path to your image folder
-            const folderPath = 'images/';
+            // GitHub API URL to list files in the folder
+            const apiUrl = `https://api.github.com/repos/${repositoryOwner}/${repositoryName}/contents/${folderPath}`;
 
-            // Fetch image files from the folder
-            fetch(`${folderPath}`)
-                .then(response => response.text())
+            fetch(apiUrl)
+                .then(response => response.json())
                 .then(data => {
-                    const parser = new DOMParser();
-                    const doc = parser.parseFromString(data, 'text/html');
-                    const links = Array.from(doc.links);
-
-                    // Filter only image files (you can adjust the file extensions)
-                    const imageLinks = links.filter(link => /\.(jpg|jpeg|png|gif)$/i.test(link.href));
-
-                    // Create and append <img> elements for each image
-                    imageLinks.forEach(link => {
-                        const img = document.createElement('img');
-                        img.src = link.href;
-                        img.alt = 'Image';
-                        imageContainer.appendChild(img);
+                    data.forEach(item => {
+                        if (item.type === 'file') {
+                            const img = document.createElement('img');
+                            img.src = item.path;
+                            img.alt = 'Image';
+                            imageContainer.appendChild(img);
+                        }
                     });
                 })
                 .catch(error => {
