@@ -22,8 +22,6 @@ for %%i in ("%input_pdf_directory%\*.pdf") do (
 
     set "pdf_file=%%~nxi"
     echo Converting "%%~nxi" to PNG...
-    @REM echo %pdf_file%
-    echo %pdftopng_path% -r 150 "%input_pdf_directory%\%pdf_file%" "%output_directory%\%%~nxi_page"
     pdftopng.exe -r 150 "%input_pdf_directory%\%pdf_file%" "%output_directory%\%%~nxi_page"
 
 )
