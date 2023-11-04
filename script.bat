@@ -22,8 +22,8 @@ for %%i in ("%input_pdf_directory%\*.pdf") do (
 
     set "pdf_file=%%~nxi"
     echo Converting "%%~nxi" to PNG...
-    echo %pdf_file%
-
+    @REM echo %pdf_file%
+    echo %pdftopng_path% -r 150 "%input_pdf_directory%\%pdf_file%" "%output_directory%\%%~nxi_page"
     pdftopng.exe -r 150 "%input_pdf_directory%\%pdf_file%" "%output_directory%\%%~nxi_page"
 
 )
@@ -51,6 +51,9 @@ set /p commit_message="Enter your commit message: "
 
 :: Commit the changes with the provided commit message
 git commit -m "%commit_message%"
+
+git config --global user.email "Ataratheweddingprops@gmail.com"
+git config --global user.name "Ataratheweddingprops"
 
 :: Push the changes to the remote repository (replace "origin" and "master" with your remote and branch)
 git push origin main
