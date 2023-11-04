@@ -15,27 +15,31 @@ set "output_directory=%script_dir%images"
 
 :: Ensure the output directory exists; create it if not
 if not exist "%output_directory%" mkdir "%output_directory%"
-pdftopng
-
-:: Loop through all PDF files in the "pdfs" folder and convert each one to PNG
-for %%i in ("%input_pdf_directory%\*.pdf") do (
-
-    set "pdf_file=%%~nxi"
-    echo Converting "%%~nxi" to PNG...
-    pdftopng.exe -r 150 "%input_pdf_directory%\%pdf_file%" "%output_directory%\%%~nxi_page"
-
-)
-
-:: Loop through all PNG files in the "images" folder and convert each one to WebP
-for %%f in ("%output_directory%\*.png") do (
-    set "png_file=%%~nxf"
-    set "webp_file=%output_directory%\%%~nf.webp"
-    echo Converting "%%~nxf" to WebP...
-    %cwebp_path% -q 90 -z 4 "%%f" -o "%%~dpnf.webp"
+@REM pdftopng
+@REM :: Loop through all PDF files in the "pdfs" folder and convert each one to PNG
+@REM for %%i in ("%input_pdf_directory%\*.pdf") do (
     
-    :: Delete the original PNG file after successful conversion to WebP
-    del "%%f"
-)
+@REM     set "pdf_file=%%~nxi"
+@REM     set "pdf_file_name=%%~ni"
+@REM     set "sub_directory=%output_directory%\%pdf_file_name%"
+@REM     if not exist "%sub_directory%" mkdir "%sub_directory%"
+@REM     @REM echo Created subdirectory: "!sub_directory!"    echo "%%i"
+@REM     @REM echo Converting "%%~nxi" to PNG...
+@REM     @REM pdftopng.exe -r 150 "%input_pdf_directory%\%pdf_file%" "%sub_directory%\%%~ni"
+
+@REM     :: Loop through all PNG files in the "images" folder and convert each one to WebP
+@REM     for %%f in ("%sub_directory%\*.png") do (
+@REM         set "png_file=%%~nxf"
+@REM         set "webp_file=%output_directory%\%%~nf.webp"
+@REM         echo Converting "%%~nxf" to WebP...
+@REM         %cwebp_path% -q 90 -z 4 "%%f" -o "%%~dpnf.webp"
+        
+@REM         :: Delete the original PNG file after successful conversion to WebP
+@REM         del "%%f"
+@REM     )
+@REM )
+
+
 
 echo All PDFs in the "pdfs" folder converted to PNG.
 
