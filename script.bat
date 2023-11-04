@@ -2,7 +2,7 @@
 
 :: Set the directory where this batch script is located
 set "script_dir=%~dp0"
-echo 
+ 
 :: Set the path to the pdftopng executable in the same directory as the script
 set "pdftopng_path=%script_dir%pdftopng.exe"
 set "cwebp_path=%script_dir%cwebp.exe"
@@ -44,7 +44,6 @@ for %%f in ("%output_directory%\*.png") do (
 
 echo All PDFs in the "pdfs" folder converted to PNG.
 
-@echo off
 
 :: Add all changes to the staging area
 git add .
