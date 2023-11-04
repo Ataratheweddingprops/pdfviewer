@@ -29,12 +29,17 @@ for %%i in ("%input_pdf_directory%\*.pdf") do (
 :: Loop through all PNG files in the "images" folder and convert each one to WebP
 for %%f in ("%output_directory%\*.png") do (
     set "png_file=%%~nxf"
-    set "webp_file=%output_directory%\%%~nf.webp"
+    setlocal enabledelayedexpansion
+    set "png_file=!png_file: =_!"  :: Replace spaces with underscores
+    set "webp_file=!output_directory!\!png_file:.png=.webp!"  :: Modify file extension
+
     echo Converting "%%~nxf" to WebP...
-    %cwebp_path% -q 90 -z 4 "%%f" -o "%%~dpnf.webp"
-    
+    %cwebp_path% -q 90 -z 4 "%%f" -o "!webp_file!"
+
     :: Delete the original PNG file after successful conversion to WebP
     del "%%f"
+
+    endlocal
 )
 
 echo All PDFs in the "pdfs" folder converted to PNG.
